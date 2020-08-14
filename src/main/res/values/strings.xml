@@ -27,7 +27,7 @@
 
     <string name="menu_node_list_add_server">Add a server</string>
 
-    <string name="text_home_please_log_in">Welcome to ClearView\nPlease log in</string>
+    <string name="text_home_please_log_in">Welcome to ClearView</string>
     <string name="text_home_server">Server</string>
     <string name="text_home_username">Username (optional)</string>
     <string name="text_home_password">Password (optional)</string>
