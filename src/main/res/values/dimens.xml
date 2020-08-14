@@ -1,0 +1,41 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">120dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_account_image_size">48dp</dimen>
+
+    <dimen name="login_button_elevation">4dp</dimen>
+    <dimen name="login_button_icon_size">48dp</dimen>
+    <dimen name="login_button_min_width">240dp</dimen>
+    <dimen name="login_button_text_size">14dp</dimen>
+
+    <dimen name="card_view_elevation">4dp</dimen>
+    <dimen name="card_view_inset">2dp</dimen>
+    <dimen name="card_view_corners">2dp</dimen>
+    <dimen name="card_view_padding">16dp</dimen>
+
+    <dimen name="circle_chart_line_thickness">16dp</dimen>
+    <dimen name="circle_chart_text_size">18dp</dimen>
+    <dimen name="circle_chart_text_shift">4dp</dimen>
+
+    <dimen name="line_chart_line_width">1dp</dimen>
+    <dimen name="line_chart_padding_left">48dp</dimen>
+    <dimen name="line_chart_padding_right">8dp</dimen>
+    <dimen name="line_chart_padding_top">24dp</dimen>
+    <dimen name="line_chart_padding_bottom">48dp</dimen>
+    <dimen name="line_chart_font_size_title">16dp</dimen>
+    <dimen name="line_chart_font_size_label">10dp</dimen>
+    <dimen name="line_chart_tick_size">4dp</dimen>
+    <dimen name="line_chart_legend_color_block_width">24dp</dimen>
+    <dimen name="line_chart_legend_color_block_height">12dp</dimen>
+    <dimen name="line_chart_legend_padding">4dp</dimen>
+    <dimen name="line_chart_legend_width_add">84dp</dimen>
+    <dimen name="line_chart_font_size_legend">12dp</dimen>
+
+    <bool name="two_panel_layout">false</bool>
+
+</resources>

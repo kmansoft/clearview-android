@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="ProcessSortButton">
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/process_list_select_sort_button</item>
+        <item name="android:textSize" tools:ignore="SpUsage">12dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

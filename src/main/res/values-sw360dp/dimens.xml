@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="login_button_icon_size">56dp</dimen>
+    <dimen name="login_button_min_width">260dp</dimen>
+    <dimen name="login_button_text_size">16dp</dimen>
+</resources>

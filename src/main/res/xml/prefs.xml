@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/prefs_show_items_category">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="ShowApache"
+            android:title="@string/prefs_show_item_apache" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="ShowNginx"
+            android:title="@string/prefs_show_item_nginx" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="ShowMySQL"
+            android:title="@string/prefs_show_item_mysql" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="ShowPgSQL"
+            android:title="@string/prefs_show_item_pgsql" />
+    </PreferenceCategory>
+</PreferenceScreen>

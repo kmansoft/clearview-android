@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/time_period_submenu"
+        android:icon="@drawable/ic_menu_av_timer"
+        android:title="@string/time_period_submenu"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/time_period_30_min"
+                android:title="@string/time_period_30_min" />
+            <item
+                android:id="@+id/time_period_1_hour"
+                android:title="@string/time_period_1_hour" />
+            <item
+                android:id="@+id/time_period_2_hours"
+                android:title="@string/time_period_2_hours" />
+            <item
+                android:id="@+id/time_period_6_hours"
+                android:title="@string/time_period_6_hours" />
+            <item
+                android:id="@+id/time_period_12_hours"
+                android:title="@string/time_period_12_hours" />
+            <item
+                android:id="@+id/time_period_24_hours"
+                android:title="@string/time_period_24_hours" />
+            <item
+                android:id="@+id/time_period_4_days"
+                android:title="@string/time_period_4_days" />
+            <item
+                android:id="@+id/time_period_2_weeks"
+                android:title="@string/time_period_2_weeks" />
+            <item
+                android:id="@+id/time_period_6_weeks"
+                android:title="@string/time_period_6_weeks" />
+            <item
+                android:id="@+id/time_period_3_months"
+                android:title="@string/time_period_3_months" />
+            <item
+                android:id="@+id/time_period_6_months"
+                android:title="@string/time_period_6_months" />
+            <item
+                android:id="@+id/time_period_1_year"
+                android:title="@string/time_period_1_year" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_menu_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_log_out"
+        android:title="@string/action_log_out"
+        app:showAsAction="never" />
+</menu>

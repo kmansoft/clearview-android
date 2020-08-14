@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AlertDialogContentView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/process_list_sort_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/colorBackground"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:outlineProvider="bounds">
+
+        <org.kman.clearview.view.CheckableTextView
+            android:id="@+id/process_list_sort_name"
+            style="@style/ProcessSortButton"
+            android:layout_width="wrap_content"
+            android:text="@string/process_list_name" />
+
+        <org.kman.clearview.view.CheckableTextView
+            android:id="@+id/process_list_sort_io"
+            style="@style/ProcessSortButton"
+            android:layout_width="wrap_content"
+            android:text="@string/process_list_io" />
+
+        <org.kman.clearview.view.CheckableTextView
+            android:id="@+id/process_list_sort_cpu"
+            style="@style/ProcessSortButton"
+            android:layout_width="wrap_content"
+            android:text="@string/process_list_cpu" />
+
+        <org.kman.clearview.view.CheckableTextView
+            android:id="@+id/process_list_sort_memory"
+            style="@style/ProcessSortButton"
+            android:layout_width="wrap_content"
+            android:text="@string/process_list_memory" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/process_list_sort_bar" />
+
+</RelativeLayout>

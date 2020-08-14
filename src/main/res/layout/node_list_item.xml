@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:id="@+id/menu_node_list_item_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/node_list_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:singleLine="true"
+            android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
+        <org.kman.clearview.chart.CircleChartView
+            android:id="@+id/node_list_item_circle"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_below="@id/node_list_item_title"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp" />
+
+        <ImageView
+            android:id="@+id/node_list_item_delete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@id/node_list_item_title"
+            android:layout_alignParentEnd="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_content_delete" />
+
+        <ImageView
+            android:id="@+id/node_list_item_info"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@id/node_list_item_title"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_toStartOf="@id/node_list_item_delete"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_content_info" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

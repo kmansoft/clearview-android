@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/process_list_selector_frame"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_panel">
+
+        <TextView
+            android:id="@+id/process_list_selector_spinner"
+            style="?android:attr/dropDownSpinnerStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minWidth="180dp"
+            android:maxWidth="240dp"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:paddingEnd="48dp"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/process_list_selector_frame"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <org.kman.clearview.chart.TimeChartView
+                android:id="@+id/time_chart_process_cpu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <org.kman.clearview.chart.TimeChartView
+                android:id="@+id/time_chart_process_memory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <org.kman.clearview.chart.TimeChartView
+                android:id="@+id/time_chart_process_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <org.kman.clearview.chart.TimeChartView
+                android:id="@+id/time_chart_process_iobytes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

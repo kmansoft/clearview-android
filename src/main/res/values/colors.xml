@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mat_blue_gray_500">#607d8b</color>
+    <color name="mat_green_700">#388e3c</color>
+    <color name="mat_orange_700">#ffa000</color>
+
+    <color name="colorPrimary">@color/mat_green_700</color>
+    <color name="colorPrimaryDark">#00600f</color>
+    <color name="colorAccent">@color/mat_orange_700</color>
+
+    <color name="content_icon">@color/mat_blue_gray_500</color>
+    <color name="content_checked">@color/mat_blue_gray_500</color>
+
+    <color name="bottom_panel">#f0f0f0</color>
+
+</resources>

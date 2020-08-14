@@ -1,0 +1,117 @@
+<resources>
+    <plurals name="system_cpu_core_count">
+        <item quantity="one">%d core</item>
+        <item quantity="other">%d cores</item>
+    </plurals>
+    <string name="app_name">ClearView</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_not_connected">Not connected</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_log_out">Log out</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_node_list">Servers</string>
+    <string name="menu_detailed_info">Detailed</string>
+    <string name="menu_overview">Overview</string>
+    <string name="menu_network">Network</string>
+    <string name="menu_disk">Disk</string>
+    <string name="menu_process">Process</string>
+    <string name="menu_app_apache">Apache</string>
+    <string name="menu_app_nginx">Nginx</string>
+    <string name="menu_app_mysql">MySQL</string>
+    <string name="menu_app_pgsql">PostgreSQL</string>
+
+    <string name="menu_system">System</string>
+
+    <string name="menu_node_list_add_server">Add a server</string>
+
+    <string name="text_home_please_log_in">Welcome to ClearView\nPlease log in</string>
+    <string name="text_home_server">Server</string>
+    <string name="text_home_username">Username (optional)</string>
+    <string name="text_home_password">Password (optional)</string>
+    <string name="text_home_login">Login</string>
+
+    <string name="please_confirm">Please confirm</string>
+    <string name="remove_server_confirm_message">Delete server node \"%s\"?</string>
+    <string name="edit_server_name_title">Server name</string>
+    <string name="edit_server_name_help">Rename to</string>
+
+    <string name="please_wait">Please wait</string>
+    <string name="login_progress_message">Logging in</string>
+    <string name="error_title">Error</string>
+
+    <!-- Node list fragment -->
+
+    <string name="home_fragment_title">Node list</string>
+    <string name="node_list_fragment_mode_cpu">CPU</string>
+    <string name="node_list_fragment_mode_memory">Memory</string>
+    <string name="node_list_fragment_mode_swap">Swap</string>
+    <string name="node_list_fragment_mode_load">Load</string>
+
+    <!-- Chart titles -->
+
+    <string name="node_list_fragment_mode_network">Network</string>
+    <string name="chart_title_cpu">CPU</string>
+    <string name="chart_title_load">Load Avg</string>
+    <string name="chart_title_mem">Memory</string>
+    <string name="chart_title_net">Network</string>
+    <string name="chart_title_disk">Disk I/O</string>
+    <string name="chart_title_ipv4">IP v4</string>
+    <string name="chart_title_ipv6">IP v6</string>
+    <string name="chart_title_space">Used space</string>
+    <string name="chart_title_inodes">Used inodes</string>
+    <string name="chart_title_count">Count</string>
+    <string name="chart_title_iobytes">I/O bytes</string>
+    <string name="chart_title_requests">Requests</string>
+    <string name="chart_title_bytes">Bytes</string>
+    <string name="chart_title_workers">Workers</string>
+    <string name="chart_title_connections">Connections</string>
+    <string name="chart_title_queries">Queries</string>
+    <string name="chart_title_slow">Slow queries</string>
+    <string name="chart_title_scans">Scans</string>
+
+    <string name="chart_title_aborted">Aborted</string>
+    <string name="system_os_label_and_version">%1$s %2$s</string>
+    <string name="system_memory_real">Memory: %s</string>
+    <string name="system_memory_swap">Swap: %s</string>
+    <string name="system_disk_size">Total disk size: %s</string>
+    <string name="system_disk_used">Total disk used: %s</string>
+    <string name="system_listening_header">Listening services</string>
+    <string name="system_active_header">Active connections</string>
+
+    <string name="process_item_ui">%1$s [%2$s]</string>
+    <string name="process_list_select_title">Select a process</string>
+    <string name="process_list_name">Name</string>
+    <string name="process_list_io">I/O</string>
+    <string name="process_list_cpu">CPU</string>
+    <string name="process_list_memory">Memory</string>
+
+    <string name="connect_login_error">Login error</string>
+    <string name="connect_network_error">Network error: %s</string>
+
+    <string name="confirm_log_out">Log out?</string>
+
+    <string name="time_period_submenu">Time period</string>
+    <string name="time_period_30_min">30 minutes</string>
+    <string name="time_period_1_hour">1 hour</string>
+    <string name="time_period_2_hours">2 hours</string>
+    <string name="time_period_6_hours">6 hours</string>
+    <string name="time_period_12_hours">12 hours</string>
+    <string name="time_period_24_hours">24 hours</string>
+    <string name="time_period_4_days">4 days</string>
+    <string name="time_period_2_weeks">2 weeks</string>
+    <string name="time_period_6_weeks">6 weeks</string>
+    <string name="time_period_3_months">3 months</string>
+    <string name="time_period_6_months">6 months</string>
+    <string name="time_period_1_year">1 year</string>
+
+    <string name="prefs_activity_title">Preferences</string>
+    <string name="prefs_show_items_category">Items to show</string>
+    <string name="prefs_show_item_apache">Apache</string>
+    <string name="prefs_show_item_nginx">Nginx</string>
+    <string name="prefs_show_item_mysql">MySQL</string>
+    <string name="prefs_show_item_pgsql">PostgreSQL</string>
+
+</resources>
