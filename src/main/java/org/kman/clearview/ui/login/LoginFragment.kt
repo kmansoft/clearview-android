@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -41,6 +42,7 @@ class LoginFragment : Fragment() {
         mEditServer = root.findViewById(R.id.login_server)
         mEditUsername = root.findViewById(R.id.login_username)
         mEditPassword = root.findViewById(R.id.login_password)
+        mCheckPlainHttp = root.findViewById(R.id.login_plain_http)
         mButtonLogin = root.findViewById(R.id.login_button)
 
         mEditServer.doAfterTextChanged {
@@ -98,8 +100,8 @@ class LoginFragment : Fragment() {
         val authInfo = AuthInfo(
             server,
             mEditUsername.text.toString().trim(),
-            mEditPassword.text.toString().trim()
-        )
+            mEditPassword.text.toString().trim(),
+            mCheckPlainHttp.isChecked)
 
         mModel.startAuth(authInfo)
     }
@@ -165,6 +167,7 @@ class LoginFragment : Fragment() {
     private lateinit var mEditServer: EditText
     private lateinit var mEditUsername: EditText
     private lateinit var mEditPassword: EditText
+    private lateinit var mCheckPlainHttp: CheckBox
     private lateinit var mButtonLogin: Button
 
     @Suppress("DEPRECATION")

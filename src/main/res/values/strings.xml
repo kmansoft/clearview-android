@@ -31,6 +31,7 @@
     <string name="text_home_server">Server</string>
     <string name="text_home_username">Username (optional)</string>
     <string name="text_home_password">Password (optional)</string>
+    <string name="text_home_plain_http">Plain HTTP</string>
     <string name="text_home_login">Login</string>
 
     <string name="please_confirm">Please confirm</string>

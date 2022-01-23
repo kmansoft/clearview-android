@@ -1,89 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_home_please_log_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/text_home_please_log_in"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Headline" />
+	<TextView
+		android:id="@+id/text_home_please_log_in"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="8dp"
+		android:text="@string/text_home_please_log_in"
+		android:textAlignment="center"
+		android:textAppearance="@android:style/TextAppearance.Material.Headline" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+		<LinearLayout
+			android:layout_width="280dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:orientation="vertical"
+			android:paddingTop="16dp"
+			android:paddingBottom="16dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:labelFor="@id/login_server"
-                android:lines="1"
-                android:text="@string/text_home_server" />
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:labelFor="@id/login_server"
+				android:lines="1"
+				android:text="@string/text_home_server" />
 
-            <EditText
-                android:id="@+id/login_server"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="server"
-                android:inputType="textUri" />
+			<EditText
+				android:id="@+id/login_server"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:autofillHints="server"
+				android:inputType="textUri" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:labelFor="@id/login_username"
-                android:lines="1"
-                android:text="@string/text_home_username" />
+			<CheckBox
+				android:id="@+id/login_plain_http"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/text_home_plain_http" />
 
-            <EditText
-                android:id="@+id/login_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="login"
-                android:inputType="text" />
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:ellipsize="end"
+				android:labelFor="@id/login_username"
+				android:lines="1"
+				android:text="@string/text_home_username" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:labelFor="@id/login_password"
-                android:lines="1"
-                android:text="@string/text_home_username" />
+			<EditText
+				android:id="@+id/login_username"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:autofillHints="login"
+				android:inputType="text" />
 
-            <EditText
-                android:id="@+id/login_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="password"
-                android:inputType="textPassword" />
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="8dp"
+				android:ellipsize="end"
+				android:labelFor="@id/login_password"
+				android:lines="1"
+				android:text="@string/text_home_password" />
 
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="8dp"
-                android:text="@string/text_home_login" />
+			<EditText
+				android:id="@+id/login_password"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:autofillHints="password"
+				android:inputType="textPassword" />
 
-        </LinearLayout>
+			<Button
+				android:id="@+id/login_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="end"
+				android:layout_marginTop="8dp"
+				android:text="@string/text_home_login" />
 
-    </ScrollView>
+		</LinearLayout>
+
+	</ScrollView>
 
 </LinearLayout>

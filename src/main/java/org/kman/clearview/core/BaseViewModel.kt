@@ -28,7 +28,8 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun makeUrlBuilderBase(authInfo: AuthInfo): HttpUrl.Builder {
         return HttpUrl.Builder().also {
-            it.scheme("https")
+            it.scheme(
+                if (authInfo.plainHttp) "http" else "https")
             it.host(authInfo.server)
 
             if (BuildConfig.DEBUG) {
