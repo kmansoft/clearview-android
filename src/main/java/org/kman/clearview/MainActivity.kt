@@ -4,11 +4,14 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         MyLog.i(TAG, "onCreate")
 
-        mHandler = Handler(this::handlerFunc)
+        mHandler = Handler(Looper.getMainLooper(), this::handlerFunc)
 
         setContentView(R.layout.activity_main)
         mIsTwoPanel = findViewById<View>(R.id.two_panel_layout_marker) != null
@@ -128,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_settings -> {
                 val intent = Intent(this, PrefsActivity::class.java)
-                startActivityForResult(intent, REQ_CODE_PREFS)
+                mReqPrefs.launch(intent)
             }
             else -> {
                 if (!onTimePeriodOption(itemId)) {
@@ -138,15 +141,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            REQ_CODE_PREFS ->
-                updateNavDrawerItems()
-            else ->
-                super.onActivityResult(requestCode, resultCode, data)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -241,6 +235,12 @@ class MainActivity : AppCompatActivity() {
             drawerTitle.text = getText(R.string.nav_header_not_connected)
         } else {
             drawerTitle.text = authInfo.server
+        }
+    }
+
+    private fun onResultPrefs(res: ActivityResult) {
+        if (res.resultCode == RESULT_OK) {
+            updateNavDrawerItems()
         }
     }
 
@@ -635,8 +635,6 @@ class MainActivity : AppCompatActivity() {
         private const val KEY_MINUTES = "minutes"
 
         private var gAuthInfoCache: AuthInfo? = null
-
-        private const val REQ_CODE_PREFS = 1
     }
 
     private lateinit var mRefreshFab: FloatingActionButton
@@ -654,4 +652,8 @@ class MainActivity : AppCompatActivity() {
     private var mMinutes: Int = BaseTimeFragment.DEFAULT_MINUTES
 
     private var mIsTwoPanel = false
+    private val mReqPrefs = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        this::onResultPrefs
+    )
 }
