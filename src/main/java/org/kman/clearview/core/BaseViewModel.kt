@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.kman.clearview.BuildConfig
+import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import java.io.IOException
 import java.net.URLEncoder
@@ -56,7 +57,7 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     protected fun <RS> startCall(callFunc: () -> RS, setFunc: (data: RS) -> Unit): Job {
         // FIXME - how can we let the client clear its job ref to null?
-        return GlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        return MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
             try {
                 startCallImpl(callFunc, setFunc)
             } catch (x: CancellationException) {

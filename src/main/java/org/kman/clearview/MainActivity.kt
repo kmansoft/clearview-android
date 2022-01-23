@@ -23,6 +23,7 @@ import org.kman.clearview.ui.FragmentFactory
 import org.kman.clearview.ui.index.NodeListFragment
 import org.kman.clearview.ui.login.LoginFragment
 import org.kman.clearview.ui.overview.OverviewFragment
+import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import org.kman.clearview.util.Prefs
 
@@ -518,7 +519,7 @@ class MainActivity : AppCompatActivity() {
 
         val app = application
 
-        GlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
             val authInfo = withContext(Dispatchers.IO) {
                 AuthInfo.loadSavedAuthInfo(app)
             }
@@ -557,7 +558,7 @@ class MainActivity : AppCompatActivity() {
 
         val app = application
 
-        GlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 AuthInfo.clearSavedAuthInfo(app)
             }

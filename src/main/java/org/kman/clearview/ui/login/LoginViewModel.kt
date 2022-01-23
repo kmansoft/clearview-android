@@ -14,6 +14,7 @@ import org.kman.clearview.core.AuthException
 import org.kman.clearview.core.AuthInfo
 import org.kman.clearview.core.BaseViewModel
 import org.kman.clearview.core.ServerData
+import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import java.io.IOException
 
@@ -25,7 +26,7 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
 
     fun startAuth(authInfo: AuthInfo): Job {
         // FIXME - how can we let the client clear its job ref to null?
-        return GlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        return MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
             try {
                 startAuthFromAuthInfo(authInfo)
             } catch (x: CancellationException) {
