@@ -7,7 +7,6 @@ import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.kman.clearview.BuildConfig
 import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import java.io.IOException
@@ -109,17 +108,16 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
 
         val requestString = requestAdapter.toJson(requestObj)
         val responseString = makeCallSyncImpl(context, url, requestString)
-        if (responseString != null) {
-            val responseObj = responseAdapter.fromJson(responseString)
-            if (responseObj != null) {
-                return responseObj
-            }
+
+        val responseObj = responseAdapter.fromJson(responseString)
+        if (responseObj != null) {
+            return responseObj
         }
 
         throw IOException("Error (1) making data request to server")
     }
 
-    protected fun makeCallSyncImpl(context: Context, url: HttpUrl, requestString: String): String? {
+    protected fun makeCallSyncImpl(context: Context, url: HttpUrl, requestString: String): String {
         val authInfo = AuthInfo.loadSavedAuthInfo(context)
             ?: throw IllegalStateException("Auth info is null, need to log in first")
         val requestBody = requestString.toRequestBody(ServerData.JSON)
@@ -130,7 +128,7 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
         return makeCallSyncImpl(request)
     }
 
-    protected fun makeCallSyncImpl(request: Request): String? {
+    protected fun makeCallSyncImpl(request: Request): String {
         val response = mHttpClient.newCall(request).execute()
         if (response.isSuccessful) {
             val responseBody = response.body
