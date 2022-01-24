@@ -47,13 +47,6 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
                 it.port(port)
             }
 
-            if (BuildConfig.DEBUG) {
-                if (authInfo.server.startsWith("192.")) {
-                    it.scheme("http")
-                    it.port(63001)
-                }
-            }
-
             it.addPathSegments("cv/api/v1")
         }
     }
