@@ -81,8 +81,7 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
 
         val json = JSONObject()
         val requestBody = json.toString().toRequestBody(ServerData.JSON)
-        val request = Request.Builder()
-            .url(url)
+        val request = makeRequestBuilderBaseWithAuth(authInfo, url)
             .post(requestBody)
             .build()
 

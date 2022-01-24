@@ -2,20 +2,16 @@ package org.kman.clearview.core
 
 import android.app.Application
 import android.content.Context
-import android.util.Base64
 import androidx.lifecycle.AndroidViewModel
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
-import okhttp3.ConnectionSpec
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.kman.clearview.BuildConfig
 import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import java.io.IOException
-import java.net.URLEncoder
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 
@@ -30,7 +26,26 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
         return HttpUrl.Builder().also {
             it.scheme(
                 if (authInfo.plainHttp) "http" else "https")
-            it.host(authInfo.server)
+
+            // Split server:port if present
+
+            var server = authInfo.server
+            var port = 0
+
+            val i = authInfo.server.indexOf(':')
+            if (i > 0) {
+                server = authInfo.server.substring(0, i)
+                port = try {
+                    authInfo.server.substring(i+1).toInt()
+                } catch (x: Exception) {
+                    0
+                }
+            }
+
+            it.host(server)
+            if (port in 1..65535) {
+                it.port(port)
+            }
 
             if (BuildConfig.DEBUG) {
                 if (authInfo.server.startsWith("192.")) {
@@ -49,9 +64,8 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
             val username = authInfo.username
             val password = authInfo.password
             if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                val combined = "$username:$password"
-                val encoded = Base64.encodeToString(combined.toByteArray(), Base64.NO_WRAP)
-                addHeader("Authorization", "Basic $encoded")
+                val encoded = Credentials.basic(username, password)
+                addHeader("Authorization", encoded)
             }
         }
     }
