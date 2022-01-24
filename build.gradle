@@ -55,7 +55,7 @@ android {
         targetSdkVersion sdk_target
         compileSdkVersion sdk_compile
 
-        versionCode 11
+        versionCode 12
         versionName "0.1.4-${versionCode}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
