@@ -100,10 +100,8 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
         url: HttpUrl,
         requestObj: RQ
     ): RS {
-        val moshi = Moshi.Builder().build()
-
-        val requestAdapter = moshi.adapter(RQ::class.java)
-        val responseAdapter = moshi.adapter(RS::class.java)
+        val requestAdapter = mMoshi.adapter(RQ::class.java)
+        val responseAdapter = mMoshi.adapter(RS::class.java)
 
         val requestString = requestAdapter.toJson(requestObj)
         val responseString = makeCallSyncImpl(context, url, requestString)
@@ -143,6 +141,8 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
 
     companion object {
         val TAG = "BaseViewModel"
+
+        val mMoshi = Moshi.Builder().build()
 
         val mHttpClient = OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
