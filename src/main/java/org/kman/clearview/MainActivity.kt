@@ -18,6 +18,7 @@ import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.*
@@ -519,7 +520,7 @@ class MainActivity : AppCompatActivity() {
 
         val app = application
 
-        MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
             val authInfo = withContext(Dispatchers.IO) {
                 AuthInfo.loadSavedAuthInfo(app)
             }
@@ -558,7 +559,9 @@ class MainActivity : AppCompatActivity() {
 
         val app = application
 
-        MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        // Don't use lifecycleScope - logging out should complete even if the user
+        // closes the activity while it's being processed
+        MyGlobalScope.launch(Job() + Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 AuthInfo.clearSavedAuthInfo(app)
             }

@@ -3,10 +3,9 @@ package org.kman.clearview.ui.login
 import android.app.Application
 import android.content.Context
 import android.os.SystemClock
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
-import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import org.kman.clearview.R
@@ -14,7 +13,6 @@ import org.kman.clearview.core.AuthException
 import org.kman.clearview.core.AuthInfo
 import org.kman.clearview.core.BaseViewModel
 import org.kman.clearview.core.ServerData
-import org.kman.clearview.util.MyGlobalScope
 import org.kman.clearview.util.MyLog
 import java.io.IOException
 
@@ -25,8 +23,7 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
     val error = MutableLiveData<String?>()
 
     fun startAuth(authInfo: AuthInfo): Job {
-        // FIXME - how can we let the client clear its job ref to null?
-        return MyGlobalScope.launch(SupervisorJob() + Dispatchers.Main) {
+        return viewModelScope.launch(Dispatchers.Main) {
             try {
                 startAuthFromAuthInfo(authInfo)
             } catch (x: CancellationException) {

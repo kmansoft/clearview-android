@@ -23,10 +23,6 @@ import org.kman.clearview.core.AuthInfo
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        private const val TAG = "LoginFragment"
-    }
-
     private lateinit var mModel: LoginViewModel
 
     override fun onCreateView(
