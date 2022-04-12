@@ -33,10 +33,6 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
         val nodeId = getNodeId()
 
         mModel.startItemList(window, nodeId)
-
-        if (mItemSelectorApi != emptyRsDisk()) {
-            mModel.startItemGet(window, nodeId, mItemSelectorApi)
-        }
     }
 
     override fun onCreateView(
@@ -105,32 +101,34 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
         mItemSelectorUI = mSpinnerValues[position]
         mItemSelectorApi = mItemListSorted[position]
 
-        val window = buildTimeWindow()
-        val nodeId = getNodeId()
-        mModel.startItemGet(window, nodeId, mItemSelectorApi)
+        val selector = mItemSelectorApi
+        if (selector != null) {
+            val window = buildTimeWindow()
+            val nodeId = getNodeId()
+            mModel.startItemGet(window, nodeId, selector)
+        }
     }
 
     private fun onItemList(items: RsDiskList) {
         if (items.disks.isEmpty()) {
             mItemListSorted = emptyList()
             mItemSelectorUI = ""
-            mItemSelectorApi = emptyRsDisk()
-            mModel.itemGet.value = emptyRsItem()
+            mItemSelectorApi = null
 
             mDiskListSpinner.adapter = null
             mSpinnerValues = emptyList()
         } else {
             mItemListSorted = ArrayList(items.disks).sortedWith { o1, o2 -> o1.name.compareTo(o2.name) }
 
+            val selector = mItemSelectorApi ?: mItemListSorted.first()
             if (mItemSelectorUI.isEmpty()) {
-                val disk0 = mItemListSorted[0]
-                mItemSelectorUI = disk0.name
-                mItemSelectorApi = disk0
+                mItemSelectorUI = selector.name
+                mItemSelectorApi = selector
             }
 
             val window = buildTimeWindow()
             val nodeId = getNodeId()
-            mModel.startItemGet(window, nodeId, mItemSelectorApi)
+            mModel.startItemGet(window, nodeId, selector)
 
             val context = requireContext()
             val list = List(mItemListSorted.size) { mItemListSorted[it].name }
@@ -150,8 +148,8 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun onItemGet(item: RsItemGet) {
-        if (item == emptyRsItem()) {
+    private fun onItemGet(item: RsItemGet?) {
+        if (item == null) {
             val empty = emptyArray<RsDataSeries>()
             mChartOps.setData(empty)
             mChartSpace.setData(empty)
@@ -200,7 +198,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
 
     private var mItemListSorted = emptyList<RsDisk>()
     private var mItemSelectorUI = ""
-    private var mItemSelectorApi = emptyRsDisk()
+    private var mItemSelectorApi: RsDisk? = null
 
     private lateinit var mChartOps: TimeChartView
     private lateinit var mChartSpace: TimeChartView

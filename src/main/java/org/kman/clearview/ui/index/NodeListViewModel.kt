@@ -1,6 +1,7 @@
 package org.kman.clearview.ui.index
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Job
@@ -12,10 +13,11 @@ import java.io.IOException
 
 class NodeListViewModel(app: Application) : BaseViewModel(app) {
 
-    val dataNodeList: MutableLiveData<RsNodeList> = MutableLiveData()
+    private val _dataNodeList: MutableLiveData<RsNodeList> = MutableLiveData()
+    val dataNodeList: LiveData<RsNodeList> = _dataNodeList
 
     fun startClientIndex(window: RqTimeWindow, verb: String, args: JSONObject?): Job {
-        return startCall(dataNodeList) {
+        return startCall(_dataNodeList) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment(verb)
                 .build()

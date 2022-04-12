@@ -1,15 +1,17 @@
 package org.kman.clearview.ui.process
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 import org.kman.clearview.core.*
 
 class ProcessViewModel(app: Application) : BasicItemsViewModel(app) {
-    val itemList: MutableLiveData<RsProcessList> = MutableLiveData()
+    private val _itemList: MutableLiveData<RsProcessList> = MutableLiveData()
+    val itemList: LiveData<RsProcessList> = _itemList
 
     fun startItemList(window: RqTimeWindow, nodeId: String): Job {
-        return startCall(itemList) {
+        return startCall(_itemList) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment("process_overview")
                 .build()

@@ -40,10 +40,6 @@ class ProcessFragment : BaseDetailFragment() {
 
         val nodeId = getNodeId()
         mModel.startItemList(window, nodeId)
-
-        if (mItemSelectorApi != emptyRsProcess()) {
-            mModel.startItemGet(window, nodeId, mItemSelectorApi)
-        }
     }
 
     override fun onCreateView(
@@ -129,13 +125,14 @@ class ProcessFragment : BaseDetailFragment() {
         mSortOrder = order
         mItemSelectorApi = selection
 
-        if (mItemSelectorApi != emptyRsProcess()) {
+        val selector = mItemSelectorApi
+        if (selector != null) {
             mItemSelectorUI =
-                getString(R.string.process_item_ui, mItemSelectorApi.name, mItemSelectorApi.user)
+                getString(R.string.process_item_ui, selector.name, selector.user)
 
             val window = buildTimeWindow()
             val nodeId = getNodeId()
-            mModel.startItemGet(window, nodeId, mItemSelectorApi)
+            mModel.startItemGet(window, nodeId, selector)
         } else {
             mItemSelectorUI = ""
         }
@@ -149,28 +146,29 @@ class ProcessFragment : BaseDetailFragment() {
 
         if (mProcessList.isEmpty()) {
             mItemSelectorUI = ""
-            mItemSelectorApi = emptyRsProcess()
-            mModel.itemGet.value = emptyRsItem()
+            mItemSelectorApi = null
+            onItemGet(null)
         } else {
+            val selector = mItemSelectorApi ?: mProcessList.first()
             if (mItemSelectorUI.isEmpty()) {
-                mItemSelectorApi = mProcessList[0]
+                mItemSelectorApi = selector
                 mItemSelectorUI = getString(
                     R.string.process_item_ui,
-                    mItemSelectorApi.name,
-                    mItemSelectorApi.user
+                    selector.name,
+                    selector.user
                 )
             }
 
             val window = buildTimeWindow()
             val nodeId = getNodeId()
-            mModel.startItemGet(window, nodeId, mItemSelectorApi)
+            mModel.startItemGet(window, nodeId, selector)
         }
 
         mProcessListButton.text = mItemSelectorUI
     }
 
-    private fun onItemGet(item: RsItemGet) {
-        if (item == emptyRsItem()) {
+    private fun onItemGet(item: RsItemGet?) {
+        if (item == null) {
             val empty = emptyArray<RsDataSeries>()
             mChartCpu.setData(empty)
             mChartMemory.setData(empty)
@@ -178,7 +176,6 @@ class ProcessFragment : BaseDetailFragment() {
             mChartIOBytes.setData(empty)
             return
         }
-
 
         mChartCpu.setData(
             arrayOf(
@@ -209,14 +206,16 @@ class ProcessFragment : BaseDetailFragment() {
     }
 
     private fun onClickSelectDialog() {
-        val dialog = SelectProcessDialog(this)
-        dialog.show()
-        dialog.setOnDismissListener {
-            if (mDialogProcessSelect == it) {
-                mDialogProcessSelect = null
+        if (mProcessList.isNotEmpty() && mItemSelectorApi != null) {
+            val dialog = SelectProcessDialog(this)
+            dialog.show()
+            dialog.setOnDismissListener {
+                if (mDialogProcessSelect == it) {
+                    mDialogProcessSelect = null
+                }
             }
+            mDialogProcessSelect = dialog
         }
-        mDialogProcessSelect = dialog
     }
 
     private class SelectProcessDialog(val fragment: ProcessFragment) :
@@ -235,19 +234,16 @@ class ProcessFragment : BaseDetailFragment() {
             val processListSource = fragment.mProcessList
             mProcessList = ArrayList(processListSource)
 
-            mSelectedProcess = fragment.mItemSelectorApi
+            mSelectedProcess = requireNotNull(fragment.mItemSelectorApi)
 
             mListView = view.findViewById(android.R.id.list)
             mListAdapter = SelectProcessAdapter(inflater, mProcessList, mSelectedProcess)
             mListView.adapter = mListAdapter
             mListView.onItemClickListener = this
 
-            if (mSelectedProcess != emptyRsProcess()) {
-                for (i in 0 until mProcessList.size) {
-                    val process = mProcessList[i]
-                    if (mSelectedProcess == process) {
-                        mListView.setSelection(i)
-                    }
+            for (i in 0 until mProcessList.size) {
+                if (mSelectedProcess == mProcessList[i]) {
+                    mListView.setSelection(i)
                 }
             }
 
@@ -300,12 +296,10 @@ class ProcessFragment : BaseDetailFragment() {
 
             mProcessList.sortWith(mSortOrder)
             mListAdapter.notifyDataSetChanged()
-            if (mProcessList.size > 0) {
-                mSelectedProcess = mProcessList[0]
-                mListView.setSelection(0)
-            } else {
-                mSelectedProcess = emptyRsProcess()
-            }
+
+            mSelectedProcess = mProcessList.first()
+            mListView.setSelection(0)
+
             mListAdapter.setSelection(mSelectedProcess)
         }
 
@@ -398,7 +392,7 @@ class ProcessFragment : BaseDetailFragment() {
     private var mSortOrder: Comparator<RsProcess> = SORT_BY_NAME
 
     private var mItemSelectorUI = ""
-    private var mItemSelectorApi = emptyRsProcess()
+    private var mItemSelectorApi: RsProcess? = null
 
     private lateinit var mChartCpu: TimeChartView
     private lateinit var mChartMemory: TimeChartView

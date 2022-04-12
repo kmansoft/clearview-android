@@ -257,10 +257,6 @@ data class RsDisk(
     val inode_free: Long
 )
 
-fun emptyRsDisk(): RsDisk {
-    return RsDisk("", 0, 0, 0, 0, 0, 0)
-}
-
 @JsonClass(generateAdapter = true)
 data class RsDiskList(
     val request: RqDiskList,
@@ -295,10 +291,6 @@ data class RsProcess(
     override fun hashCode(): Int {
         return name.hashCode() + user.hashCode()
     }
-}
-
-fun emptyRsProcess(): RsProcess {
-    return RsProcess("", "", 0.0f, 0, 0, 0)
 }
 
 @JsonClass(generateAdapter = true)
@@ -386,13 +378,6 @@ data class RsSystem(
 )
 
 // Utility
-
-fun emptyRsItem(): RsItemGet {
-    return RsItemGet(
-        RqItemGet("", "", emptyList(), 0, 0, 0),
-        emptyList()
-    )
-}
 
 fun rebuildDataSeries(series: RsDataSeries, value: (Int) -> Double): RsDataSeries {
     return RsDataSeries(series.sub, List(

@@ -1,14 +1,16 @@
 package org.kman.clearview.core
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Job
 
 open class BasicDataViewModel(app: Application) : BaseViewModel(app) {
-    val data: MutableLiveData<RsNodeData> = MutableLiveData()
+    private val _data: MutableLiveData<RsNodeData> = MutableLiveData()
+    val data: LiveData<RsNodeData> = _data
 
     fun startData(window: RqTimeWindow, nodeId: String, series: List<String>): Job {
-        return startCall(data) {
+        return startCall(_data) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment("get")
                 .build()
