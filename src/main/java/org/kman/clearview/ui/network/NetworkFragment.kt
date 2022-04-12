@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.R
@@ -34,11 +35,10 @@ class NetworkFragment : BaseDetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(NetworkViewModel::class.java)
-        mModel.data.observe(viewLifecycleOwner, Observer {
+
+        mModel.data.observe(viewLifecycleOwner) {
             onData(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_network, container, false)
         val context = requireContext()
@@ -109,7 +109,7 @@ class NetworkFragment : BaseDetailFragment() {
         )
     }
 
-    private lateinit var mModel: NetworkViewModel
+    private val mModel: NetworkViewModel by viewModels()
 
     private lateinit var mController: TimeChartGroupController
 

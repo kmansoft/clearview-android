@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.R
@@ -50,14 +51,13 @@ class ProcessFragment : BaseDetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(ProcessViewModel::class.java)
-        mModel.itemList.observe(viewLifecycleOwner, Observer {
+
+        mModel.itemList.observe(viewLifecycleOwner) {
             onItemList(it)
-        })
-        mModel.itemGet.observe(viewLifecycleOwner, Observer {
+        }
+        mModel.itemGet.observe(viewLifecycleOwner) {
             onItemGet(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_process, container, false)
         val context = requireContext()
@@ -390,7 +390,7 @@ class ProcessFragment : BaseDetailFragment() {
         }
     }
 
-    private lateinit var mModel: ProcessViewModel
+    private val mModel: ProcessViewModel by viewModels()
 
     private lateinit var mController: TimeChartGroupController
 

@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -52,14 +53,12 @@ class NodeListFragment : Fragment() {
 
         // setHasOptionsMenu(true)
 
-        mModel =
-            ViewModelProvider(this).get(NodeListViewModel::class.java)
-        mModel.dataNodeList.observe(viewLifecycleOwner, Observer {
+        mModel.dataNodeList.observe(viewLifecycleOwner) {
             onDataNodeList(it)
-        })
+        }
 
         val root =
-            inflater.inflate(org.kman.clearview.R.layout.fragment_node_list, container, false)
+            inflater.inflate(R.layout.fragment_node_list, container, false)
 
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         val itemAnimator = DefaultItemAnimator()
@@ -190,7 +189,7 @@ class NodeListFragment : Fragment() {
     }
 
     private fun onClickedDeleteNode(node: RsNodeListNode) {
-        val context = context!!
+        val context = requireContext()
         val dialog =
             AlertDialog.Builder(context).apply {
                 setTitle(R.string.please_confirm)
@@ -246,7 +245,7 @@ class NodeListFragment : Fragment() {
         AlertDialog(fragment.context), TextWatcher {
         override fun onCreate(savedInstanceState: Bundle?) {
 
-            val context = fragment.context!!
+            val context = fragment.requireContext()
             val inflater = layoutInflater
             val view = inflater.inflate(R.layout.node_list_edit_server_dialog, null, false)
 
@@ -525,7 +524,7 @@ class NodeListFragment : Fragment() {
         )
     }
 
-    private lateinit var mModel: NodeListViewModel
+    private val mModel: NodeListViewModel by viewModels()
 
     private lateinit var mNodeListView: RecyclerView
     private lateinit var mNodeListAdapter: NodeListAdapter

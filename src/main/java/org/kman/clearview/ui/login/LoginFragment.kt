@@ -14,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.MainActivity
@@ -23,16 +24,13 @@ import org.kman.clearview.core.AuthInfo
 
 class LoginFragment : Fragment() {
 
-    private lateinit var mModel: LoginViewModel
+    private val mModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        mModel =
-            ViewModelProvider(this).get(LoginViewModel::class.java)
 
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         mEditServer = root.findViewById(R.id.login_server)
@@ -54,15 +52,15 @@ class LoginFragment : Fragment() {
         mButtonLogin.isEnabled = false
         mButtonLogin.setOnClickListener(this::onClickLogin)
 
-        mModel.progress.observe(viewLifecycleOwner, Observer {
+        mModel.progress.observe(viewLifecycleOwner) {
             showProgress(it)
-        })
-        mModel.error.observe(viewLifecycleOwner, Observer {
+        }
+        mModel.error.observe(viewLifecycleOwner) {
             showError(it)
-        })
-        mModel.auth.observe(viewLifecycleOwner, Observer {
+        }
+        mModel.auth.observe(viewLifecycleOwner) {
             authIsCompleted(it)
-        })
+        }
 
         return root
     }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.R
@@ -33,11 +34,10 @@ class MySqlFragment : BaseDetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(MySqlViewModel::class.java)
-        mModel.data.observe(viewLifecycleOwner, Observer {
+
+        mModel.data.observe(viewLifecycleOwner) {
             onData(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_mysql, container, false)
         val context = requireContext()
@@ -139,7 +139,7 @@ class MySqlFragment : BaseDetailFragment() {
         )
     }
 
-    private lateinit var mModel: MySqlViewModel
+    private val mModel: MySqlViewModel by viewModels()
 
     private lateinit var mController: TimeChartGroupController
 

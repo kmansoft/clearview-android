@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.R
@@ -43,14 +44,13 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(DiskViewModel::class.java)
-        mModel.itemList.observe(viewLifecycleOwner, Observer {
+
+        mModel.itemList.observe(viewLifecycleOwner) {
             onItemList(it)
-        })
-        mModel.itemGet.observe(viewLifecycleOwner, Observer {
+        }
+        mModel.itemGet.observe(viewLifecycleOwner) {
             onItemGet(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_disk, container, false)
         val context = requireContext()
@@ -120,8 +120,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
             mDiskListSpinner.adapter = null
             mSpinnerValues = emptyList()
         } else {
-            mItemListSorted = ArrayList(items.disks).sortedWith(
-                Comparator { o1, o2 -> o1.name.compareTo(o2.name) })
+            mItemListSorted = ArrayList(items.disks).sortedWith { o1, o2 -> o1.name.compareTo(o2.name) }
 
             if (mItemSelectorUI.isEmpty()) {
                 val disk0 = mItemListSorted[0]
@@ -133,7 +132,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
             val nodeId = getNodeId()
             mModel.startItemGet(window, nodeId, mItemSelectorApi)
 
-            val context = context!!
+            val context = requireContext()
             val list = List(mItemListSorted.size) { mItemListSorted[it].name }
             if (list != mSpinnerValues) {
                 val adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, list)
@@ -195,7 +194,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
         )
     }
 
-    private lateinit var mModel: DiskViewModel
+    private val mModel: DiskViewModel by viewModels()
 
     private lateinit var mController: TimeChartGroupController
 

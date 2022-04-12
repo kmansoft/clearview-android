@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import org.kman.clearview.R
@@ -34,11 +35,10 @@ class ApacheFragment : BaseDetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(ApacheViewModel::class.java)
-        mModel.data.observe(viewLifecycleOwner, Observer {
+
+        mModel.data.observe(viewLifecycleOwner) {
             onData(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_apache, container, false)
         val context = requireContext()
@@ -105,7 +105,7 @@ class ApacheFragment : BaseDetailFragment() {
         )
     }
 
-    private lateinit var mModel: ApacheViewModel
+    private val mModel: ApacheViewModel by viewModels()
 
     private lateinit var mController: TimeChartGroupController
 

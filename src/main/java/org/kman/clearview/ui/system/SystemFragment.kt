@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -39,11 +40,10 @@ class SystemFragment : BaseDetailFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mModel =
-            ViewModelProvider(this).get(SystemViewModel::class.java)
-        mModel.data.observe(viewLifecycleOwner, Observer {
+
+        mModel.data.observe(viewLifecycleOwner) {
             onData(it)
-        })
+        }
 
         val root = inflater.inflate(R.layout.fragment_system, container, false)
         val context = requireContext()
@@ -306,7 +306,7 @@ class SystemFragment : BaseDetailFragment() {
         val VIEW_TYPE_ACTIVE_DATA = 7
     }
 
-    private lateinit var mModel: SystemViewModel
+    private val mModel: SystemViewModel by viewModels()
 
     private lateinit var mListView: RecyclerView
     private lateinit var mAdapter: SystemAdapter
