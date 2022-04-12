@@ -15,7 +15,7 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
     val dataNodeList: MutableLiveData<RsNodeList> = MutableLiveData()
 
     fun startClientIndex(window: RqTimeWindow, verb: String, args: JSONObject?): Job {
-        return startCall<RsNodeList>({
+        return startCall({
             val url = makeUrlBuilderBase(app)
                 .addPathSegment(verb)
                 .build()
@@ -25,14 +25,13 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
             requestJson.put("point_duration", window.pointDuration)
 
             val responseString = makeCallSyncImpl(app, url, requestJson.toString())
-            if (responseString != null) {
-                val moshi = Moshi.Builder().build()
-                val adapter = moshi.adapter(RsNodeList::class.java)
 
-                val obj = adapter.fromJson(responseString)
-                if (obj != null) {
-                    return@startCall obj
-                }
+            val moshi = Moshi.Builder().build()
+            val adapter = moshi.adapter(RsNodeList::class.java)
+
+            val obj = adapter.fromJson(responseString)
+            if (obj != null) {
+                return@startCall obj
             }
 
             throw IOException("Error making index request to server")
