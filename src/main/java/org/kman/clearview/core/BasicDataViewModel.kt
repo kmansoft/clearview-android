@@ -8,7 +8,7 @@ open class BasicDataViewModel(app: Application) : BaseViewModel(app) {
     val data: MutableLiveData<RsNodeData> = MutableLiveData()
 
     fun startData(window: RqTimeWindow, nodeId: String, series: List<String>): Job {
-        return startCall<RsNodeData>({
+        return startCall(data) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment("get")
                 .build()
@@ -16,11 +16,7 @@ open class BasicDataViewModel(app: Application) : BaseViewModel(app) {
             val requestObj = RqNodeData(nodeId, series, 0L, window.pointCount, window.pointDuration)
 
             makeCallSyncReified(app, url, requestObj)
-        }, { data -> setData(data) })
-    }
-
-    fun setData(d: RsNodeData) {
-        data.value = d
+        }
     }
 
     companion object {

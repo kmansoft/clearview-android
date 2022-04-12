@@ -83,16 +83,12 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
             .build()
 
         val responseString = makeCallSyncImpl(request)
-        if (responseString != null) {
-            MyLog.i(TAG, "Server response: %s", responseString)
+        MyLog.i(TAG, "Server response: %s", responseString)
 
-            @Suppress("UNUSED_VARIABLE")
-            val responseObj = JSONObject(responseString)
+        @Suppress("UNUSED_VARIABLE")
+        val responseObj = JSONObject(responseString)
 
-            return authInfo
-        }
-
-        throw IOException("Error making auth request to server")
+        return authInfo
     }
 
     companion object {

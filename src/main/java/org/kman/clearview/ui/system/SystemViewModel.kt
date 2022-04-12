@@ -12,7 +12,7 @@ class SystemViewModel(app: Application) : BaseViewModel(app) {
     val data: MutableLiveData<RsSystem> = MutableLiveData()
 
     fun startData(window: RqTimeWindow, nodeId: String): Job {
-        return startCall<RsSystem>({
+        return startCall(data) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment("system_overview")
                 .build()
@@ -20,11 +20,7 @@ class SystemViewModel(app: Application) : BaseViewModel(app) {
             val requestObj = RqSystem(nodeId, 0L, window.pointCount, window.pointDuration)
 
             makeCallSyncReified(app, url, requestObj)
-        }, { data -> setData(data) })
-    }
-
-    fun setData(d: RsSystem) {
-        data.value = d
+        }
     }
 
     companion object {

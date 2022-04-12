@@ -15,7 +15,7 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
     val dataNodeList: MutableLiveData<RsNodeList> = MutableLiveData()
 
     fun startClientIndex(window: RqTimeWindow, verb: String, args: JSONObject?): Job {
-        return startCall({
+        return startCall(dataNodeList) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment(verb)
                 .build()
@@ -35,11 +35,7 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
             }
 
             throw IOException("Error making index request to server")
-        }, { data -> setDataNodeList(data) })
-    }
-
-    fun setDataNodeList(data: RsNodeList) {
-        dataNodeList.value = data
+        }
     }
 
     companion object {

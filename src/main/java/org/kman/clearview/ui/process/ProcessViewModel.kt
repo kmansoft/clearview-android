@@ -8,12 +8,8 @@ import org.kman.clearview.core.*
 class ProcessViewModel(app: Application) : BasicItemsViewModel(app) {
     val itemList: MutableLiveData<RsProcessList> = MutableLiveData()
 
-    fun setItemList(d: RsProcessList) {
-        itemList.value = d
-    }
-
     fun startItemList(window: RqTimeWindow, nodeId: String): Job {
-        return startCall<RsProcessList>({
+        return startCall(itemList) {
             val url = makeUrlBuilderBase(app)
                 .addPathSegment("process_overview")
                 .build()
@@ -21,11 +17,7 @@ class ProcessViewModel(app: Application) : BasicItemsViewModel(app) {
             val requestObj = RqProcessList(nodeId, window.pointCount, window.pointDuration)
 
             makeCallSyncReified(app, url, requestObj)
-        }, { itemList -> setItemList(itemList) })
-    }
-
-    fun startItemGet(window: RqTimeWindow, nodeId: String, item: String): Job {
-        return super.startItemGet(window, nodeId, item, listOf("process_list"))
+        }
     }
 
     fun startItemGet(window: RqTimeWindow, nodeId: String, item: RsProcess): Job {

@@ -3,6 +3,7 @@ package org.kman.clearview.core
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.*
@@ -62,10 +63,13 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    protected fun <RS> startCall(callFunc: () -> RS, setFunc: (data: RS) -> Unit): Job {
+    protected fun <RS> startCall(liveData: MutableLiveData<RS>, callFunc: () -> RS): Job {
         return viewModelScope.launch(Dispatchers.Main) {
             try {
-                startCallImpl(callFunc, setFunc)
+                val data = withContext(Dispatchers.IO) {
+                    callFunc()
+                }
+                liveData.value = data
             } catch (x: CancellationException) {
                 // Ignore
                 MyLog.w(TAG, "Cancelled", x)
@@ -78,21 +82,6 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
     private fun getAuthInfo(): AuthInfo {
         return AuthInfo.loadSavedAuthInfo(app)
             ?: throw IllegalStateException("Auth info is null, need to log in first")
-    }
-
-    private suspend fun <RS> startCallImpl(callFunc: () -> RS, setFunc: (data: RS) -> Unit) {
-
-        try {
-            val data: RS = withContext(Dispatchers.IO) {
-                callFunc()
-            }
-            setFunc(data)
-        } catch (x: CancellationException) {
-            // Ignore
-            MyLog.w(TAG, "Cancelled", x)
-        } catch (x: Throwable) {
-            MyLog.w(TAG, "Top level catch", x)
-        }
     }
 
     protected inline fun <reified RQ, reified RS> makeCallSyncReified(
