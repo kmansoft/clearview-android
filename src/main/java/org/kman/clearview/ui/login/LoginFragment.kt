@@ -130,7 +130,7 @@ class LoginFragment : Fragment() {
                 mProgressDialog = dialog
             }
 
-            mProgressDialog?.show()
+            dialog?.show()
         } else {
             mProgressDialog?.dismiss()
             mProgressDialog = null
@@ -145,13 +145,12 @@ class LoginFragment : Fragment() {
                 dialog = AlertDialog.Builder(context).apply {
                     setTitle(R.string.error_title)
                     setMessage(msg)
+                    setOnDismissListener(::onDismissDialog)
                 }.show()
-                dialog.setOnDismissListener(this::onDismissDialog)
                 mErrorDialog = dialog
+            } else {
+                dialog.setMessage(msg)
             }
-
-            mErrorDialog?.setMessage(msg)
-            mErrorDialog?.show()
         } else {
             mErrorDialog?.dismiss()
             mErrorDialog = null
