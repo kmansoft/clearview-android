@@ -1,8 +1,8 @@
 package org.kman.clearview.ui.login
 
 import android.app.Application
-import android.content.Context
 import android.os.SystemClock
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
@@ -14,13 +14,16 @@ import org.kman.clearview.core.AuthInfo
 import org.kman.clearview.core.BaseViewModel
 import org.kman.clearview.core.ServerData
 import org.kman.clearview.util.MyLog
-import java.io.IOException
 
 class LoginViewModel(app: Application) : BaseViewModel(app) {
 
-    val progress = MutableLiveData<Boolean>(false)
-    val auth = MutableLiveData<AuthInfo?>()
-    val error = MutableLiveData<String?>()
+    private val _progress = MutableLiveData<Boolean>(false)
+    private val _auth = MutableLiveData<AuthInfo?>()
+    private val _error = MutableLiveData<String?>()
+
+    val progress: LiveData<Boolean> = _progress
+    val auth: LiveData<AuthInfo?> = _auth
+    val error: LiveData<String?> = _error
 
     fun startAuth(authInfo: AuthInfo): Job {
         return viewModelScope.launch(Dispatchers.Main) {
@@ -37,29 +40,26 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
 
     private suspend fun startAuthFromAuthInfo(authInfo: AuthInfo) {
 
-        auth.value = null
-        error.value = null
+        _auth.value = null
+        _error.value = null
 
-        progress.value = true
+        _progress.value = true
         val start = SystemClock.elapsedRealtime()
-        var isError = false
         try {
             val authResult = withContext(Dispatchers.IO) {
                 makeAuthCallSync(authInfo)
             }
 
-            auth.value = authResult
-            saveAuthInfo(app, authResult)
+            _auth.value = authResult
+            AuthInfo.saveAuthInfo(app, authResult)
         } catch (x: AuthException) {
             MyLog.w(TAG, "Auth error", x)
-            isError = true
-            error.value = app.getString(R.string.connect_login_error)
+            _error.value = app.getString(R.string.connect_login_error)
         } catch (x: Throwable) {
             MyLog.w(TAG, "Throwable", x)
-            isError = true
-            error.value = app.getString(R.string.connect_network_error, x.message)
+            _error.value = app.getString(R.string.connect_network_error, x.message)
         } finally {
-            if (!isError) {
+            if (error.value == null) {
                 val elapsed = SystemClock.elapsedRealtime() - start
                 val d = 500 - elapsed
                 if (d > 0) {
@@ -67,7 +67,7 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
                 }
             }
 
-            progress.value = false
+            _progress.value = false
         }
     }
 
@@ -93,9 +93,5 @@ class LoginViewModel(app: Application) : BaseViewModel(app) {
 
     companion object {
         private const val TAG = "LoginViewModel"
-
-        fun saveAuthInfo(context: Context, authInfo: AuthInfo) {
-            AuthInfo.saveAuthInfo(context, authInfo)
-        }
     }
 }
