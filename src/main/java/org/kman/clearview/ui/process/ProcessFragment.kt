@@ -123,21 +123,14 @@ class ProcessFragment : BaseDetailFragment() {
 
     fun setSortOrder(order: Comparator<RsProcess>, selection: RsProcess) {
         mSortOrder = order
-        mItemSelectorApi = selection
+        mItemSelector = selection
 
-        val selector = mItemSelectorApi
-        if (selector != null) {
-            mItemSelectorUI =
-                getString(R.string.process_item_ui, selector.name, selector.user)
+        mProcessListButton.text =
+            getString(R.string.process_item_ui, selection.name, selection.user)
 
-            val window = buildTimeWindow()
-            val nodeId = getNodeId()
-            mModel.startItemGet(window, nodeId, selector)
-        } else {
-            mItemSelectorUI = ""
-        }
-
-        mProcessListButton.text = mItemSelectorUI
+        val window = buildTimeWindow()
+        val nodeId = getNodeId()
+        mModel.startItemGet(window, nodeId, selection)
     }
 
     private fun onItemList(items: RsProcessList) {
@@ -145,26 +138,26 @@ class ProcessFragment : BaseDetailFragment() {
         mProcessList.sortWith(mSortOrder)
 
         if (mProcessList.isEmpty()) {
-            mItemSelectorUI = ""
-            mItemSelectorApi = null
+            mProcessListButton.text = null
+            mItemSelector = null
             onItemGet(null)
         } else {
-            val selector = mItemSelectorApi ?: mProcessList.first()
-            if (mItemSelectorUI.isEmpty()) {
-                mItemSelectorApi = selector
-                mItemSelectorUI = getString(
-                    R.string.process_item_ui,
-                    selector.name,
-                    selector.user
-                )
+            var selector = mItemSelector
+            if (selector == null) {
+                selector = mProcessList.first()
+                mItemSelector = selector
             }
+
+            mProcessListButton.text = getString(
+                R.string.process_item_ui,
+                selector.name,
+                selector.user
+            )
 
             val window = buildTimeWindow()
             val nodeId = getNodeId()
             mModel.startItemGet(window, nodeId, selector)
         }
-
-        mProcessListButton.text = mItemSelectorUI
     }
 
     private fun onItemGet(item: RsItemGet?) {
@@ -206,7 +199,7 @@ class ProcessFragment : BaseDetailFragment() {
     }
 
     private fun onClickSelectDialog() {
-        if (mProcessList.isNotEmpty() && mItemSelectorApi != null) {
+        if (mProcessList.isNotEmpty() && mItemSelector != null) {
             val dialog = SelectProcessDialog(this)
             dialog.show()
             dialog.setOnDismissListener {
@@ -234,7 +227,7 @@ class ProcessFragment : BaseDetailFragment() {
             val processListSource = fragment.mProcessList
             mProcessList = ArrayList(processListSource)
 
-            mSelectedProcess = requireNotNull(fragment.mItemSelectorApi)
+            mSelectedProcess = requireNotNull(fragment.mItemSelector)
 
             mListView = view.findViewById(android.R.id.list)
             mListAdapter = SelectProcessAdapter(inflater, mProcessList, mSelectedProcess)
@@ -391,8 +384,7 @@ class ProcessFragment : BaseDetailFragment() {
     private var mProcessList = ArrayList<RsProcess>()
     private var mSortOrder: Comparator<RsProcess> = SORT_BY_NAME
 
-    private var mItemSelectorUI = ""
-    private var mItemSelectorApi: RsProcess? = null
+    private var mItemSelector: RsProcess? = null
 
     private lateinit var mChartCpu: TimeChartView
     private lateinit var mChartMemory: TimeChartView

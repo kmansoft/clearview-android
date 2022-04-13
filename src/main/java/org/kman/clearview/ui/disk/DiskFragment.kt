@@ -98,10 +98,9 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        mItemSelectorUI = mSpinnerValues[position]
-        mItemSelectorApi = mItemListSorted[position]
+        mItemSelector = mItemListSorted[position]
 
-        val selector = mItemSelectorApi
+        val selector = mItemSelector
         if (selector != null) {
             val window = buildTimeWindow()
             val nodeId = getNodeId()
@@ -112,18 +111,20 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
     private fun onItemList(items: RsDiskList) {
         if (items.disks.isEmpty()) {
             mItemListSorted = emptyList()
-            mItemSelectorUI = ""
-            mItemSelectorApi = null
+            mItemSelector = null
 
             mDiskListSpinner.adapter = null
             mSpinnerValues = emptyList()
+
+            onItemGet(null)
         } else {
             mItemListSorted = ArrayList(items.disks).sortedWith { o1, o2 -> o1.name.compareTo(o2.name) }
 
-            val selector = mItemSelectorApi ?: mItemListSorted.first()
-            if (mItemSelectorUI.isEmpty()) {
-                mItemSelectorUI = selector.name
-                mItemSelectorApi = selector
+            var selector = mItemSelector
+            if (selector == null ||
+                    mItemListSorted.find { it.name == selector?.name } == null) {
+                selector = mItemListSorted.first()
+                mItemSelector = selector
             }
 
             val window = buildTimeWindow()
@@ -139,7 +140,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
                 mSpinnerValues = list
 
                 for (i in list.indices) {
-                    if (mItemListSorted[i] == mItemSelectorApi) {
+                    if (mItemListSorted[i] == mItemSelector) {
                         mDiskListSpinner.setSelection(i)
                         break
                     }
@@ -197,8 +198,7 @@ class DiskFragment : BaseDetailFragment(), AdapterView.OnItemSelectedListener {
     private lateinit var mController: TimeChartGroupController
 
     private var mItemListSorted = emptyList<RsDisk>()
-    private var mItemSelectorUI = ""
-    private var mItemSelectorApi: RsDisk? = null
+    private var mItemSelector: RsDisk? = null
 
     private lateinit var mChartOps: TimeChartView
     private lateinit var mChartSpace: TimeChartView
