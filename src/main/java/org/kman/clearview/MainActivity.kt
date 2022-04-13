@@ -52,14 +52,12 @@ class MainActivity : AppCompatActivity() {
             onClickRefresh()
         }
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        mDrawerLayout = drawerLayout
+        mDrawerLayout = findViewById(R.id.drawer_layout)
 
-        val navView: NavigationView = findViewById(R.id.nav_view)
-        mNavView = navView
-        mNavHeaderView = navView.getHeaderView(0)
+        mNavView = findViewById(R.id.nav_view)
+        mNavHeaderView = mNavView.getHeaderView(0)
 
-        navView.setNavigationItemSelectedListener { menuItem ->
+        mNavView.setNavigationItemSelectedListener { menuItem ->
             onNavigationItemSelected(menuItem)
             true
         }

@@ -17,7 +17,7 @@ open class BasicDataViewModel(app: Application) : BaseViewModel(app) {
 
             val requestObj = RqNodeData(nodeId, series, 0L, window.pointCount, window.pointDuration)
 
-            makeCallSyncReified(app, url, requestObj)
+            makeCallSync(app, url, requestObj)
         }
     }
 

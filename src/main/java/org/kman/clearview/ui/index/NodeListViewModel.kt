@@ -28,8 +28,7 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
 
             val responseString = makeCallSyncImpl(app, url, requestJson.toString())
 
-            val moshi = Moshi.Builder().build()
-            val adapter = moshi.adapter(RsNodeList::class.java)
+            val adapter = mMoshi.adapter(RsNodeList::class.java)
 
             val obj = adapter.fromJson(responseString)
             if (obj != null) {

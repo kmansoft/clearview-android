@@ -2,6 +2,7 @@ package org.kman.clearview.core
 
 import android.app.Application
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -74,7 +75,10 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
                 // Ignore
                 MyLog.w(TAG, "Cancelled", x)
             } catch (x: Throwable) {
+                // Show toast
                 MyLog.w(TAG, "Top level catch", x)
+
+                Toast.makeText(app, x.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -84,7 +88,7 @@ open class BaseViewModel(val app: Application) : AndroidViewModel(app) {
             ?: throw IllegalStateException("Auth info is null, need to log in first")
     }
 
-    protected inline fun <reified RQ, reified RS> makeCallSyncReified(
+    protected inline fun <reified RQ, reified RS> makeCallSync(
         context: Context,
         url: HttpUrl,
         requestObj: RQ

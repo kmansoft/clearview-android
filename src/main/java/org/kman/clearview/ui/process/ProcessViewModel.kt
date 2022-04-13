@@ -18,7 +18,7 @@ class ProcessViewModel(app: Application) : BasicItemsViewModel(app) {
 
             val requestObj = RqProcessList(nodeId, window.pointCount, window.pointDuration)
 
-            makeCallSyncReified(app, url, requestObj)
+            makeCallSync(app, url, requestObj)
         }
     }
 

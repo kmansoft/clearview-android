@@ -18,7 +18,7 @@ class DiskViewModel(app: Application) : BasicItemsViewModel(app) {
 
             val requestObj = RqDiskList(nodeId, window.pointCount, window.pointDuration)
 
-            makeCallSyncReified(app, url, requestObj)
+            makeCallSync(app, url, requestObj)
         }
     }
 

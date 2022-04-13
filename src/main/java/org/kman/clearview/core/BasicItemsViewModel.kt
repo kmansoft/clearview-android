@@ -18,7 +18,7 @@ open class BasicItemsViewModel(app: Application) : BaseViewModel(app) {
             val requestObj =
                 RqItemGet(nodeId, itemSelector, series, 0L, window.pointCount, window.pointDuration)
 
-            makeCallSyncReified(app, url, requestObj)
+            makeCallSync(app, url, requestObj)
         }
     }
 

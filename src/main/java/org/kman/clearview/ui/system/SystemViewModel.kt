@@ -21,7 +21,7 @@ class SystemViewModel(app: Application) : BaseViewModel(app) {
 
             val requestObj = RqSystem(nodeId, 0L, window.pointCount, window.pointDuration)
 
-            makeCallSyncReified(app, url, requestObj)
+            makeCallSync(app, url, requestObj)
         }
     }
 
