@@ -1,15 +1,12 @@
-@file:Suppress("DEPRECATION")
-
 package org.kman.clearview
 
 import android.os.Bundle
-import android.preference.PreferenceActivity
+import androidx.appcompat.app.AppCompatActivity
 
-class PrefsActivity : PreferenceActivity() {
-    @Deprecated("Deprecated in Java")
+class PrefsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        addPreferencesFromResource(R.xml.prefs)
+        setContentView(R.layout.activity_prefs)
     }
 }
