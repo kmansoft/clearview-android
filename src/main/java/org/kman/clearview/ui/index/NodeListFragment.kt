@@ -1,5 +1,6 @@
 package org.kman.clearview.ui.index
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -9,10 +10,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.*
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,10 +48,8 @@ class NodeListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val context = requireContext()
+        val context = requireActivity()
         val res = context.resources
-
-        // setHasOptionsMenu(true)
 
         mModel.dataNodeList.observe(viewLifecycleOwner) {
             onDataNodeList(it)
@@ -63,7 +61,7 @@ class NodeListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         val itemAnimator = DefaultItemAnimator()
 
-        mNodeListView = root.findViewById(org.kman.clearview.R.id.index_node_list_view)
+        mNodeListView = root.findViewById(R.id.index_node_list_view)
         mNodeListView.setHasFixedSize(true)
         mNodeListView.layoutManager = layoutManager
         mNodeListView.itemAnimator = itemAnimator
@@ -72,7 +70,7 @@ class NodeListFragment : Fragment() {
         mNodeListView.adapter = mNodeListAdapter
 
         val modeWrapperView: ViewGroup =
-            root.findViewById(org.kman.clearview.R.id.index_node_mode_wrapper)
+            root.findViewById(R.id.index_node_mode_wrapper)
 
         NODE_LIST_MODE_LIST.forEach {
             val modeItemView: TextView = inflater.inflate(
@@ -93,6 +91,16 @@ class NodeListFragment : Fragment() {
         }
         setCheckedNodeInfoTypeIndex(typeIndex)
         mNodeListAdapter.setNodeInfoTypeIndex(typeIndex)
+
+        context.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.fragment_node_list, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return onOptionsItemSelectedImpl(menuItem)
+            }
+        }, viewLifecycleOwner)
 
         return root
     }
@@ -121,14 +129,10 @@ class NodeListFragment : Fragment() {
         outState.putInt(KEY_NODE_LIST_MODE, mNodeListAdapter.getNodeInfoTypeIndex())
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.fragment_node_list, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    private fun onOptionsItemSelectedImpl(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.node_list_add_server -> onClickedAddServer()
-            else -> return super.onOptionsItemSelected(item)
+            else -> return false
         }
         return true
     }
@@ -307,30 +311,34 @@ class NodeListFragment : Fragment() {
     class NodeListAdapter(val fragment: NodeListFragment, val context: Context) :
         RecyclerView.Adapter<NodeViewHolder>() {
 
-        val mInflater: LayoutInflater = LayoutInflater.from(context)
-        var mList: List<RsNodeListNode> = emptyList()
-        var mIsLoaded: Boolean = false
-        var mNodeInfoType = NODE_LIST_MODE_LIST[0]
+        private val mInflater: LayoutInflater = LayoutInflater.from(context)
+        private var mList: List<RsNodeListNode> = emptyList()
+        private var mIsLoaded: Boolean = false
+        private var mNodeInfoType = NODE_LIST_MODE_LIST[0]
 
         init {
             setHasStableIds(false)
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setNodeList(list: List<RsNodeListNode>) {
             mList = list
             mIsLoaded = true
+
             notifyDataSetChanged()
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         fun setNodeInfoType(n: NodeListMode) {
             if (mNodeInfoType != n) {
                 mNodeInfoType = n
+
                 notifyDataSetChanged()
             }
         }
 
         fun getNodeInfoTypeIndex(): Int {
-            for (i in 0 until NODE_LIST_MODE_LIST.size) {
+            for (i in NODE_LIST_MODE_LIST.indices) {
                 if (mNodeInfoType == NODE_LIST_MODE_LIST[i]) {
                     return i
                 }
@@ -351,18 +359,18 @@ class NodeListFragment : Fragment() {
         }
 
         override fun getItemViewType(position: Int): Int {
-            if (position < mList.size) {
-                return VIEW_TYPE_NODE
+            return if (position < mList.size) {
+                VIEW_TYPE_NODE
             } else {
-                return VIEW_TYPE_ADD
+                VIEW_TYPE_ADD
             }
         }
 
         override fun getItemId(position: Int): Long {
-            if (getItemViewType(position) == VIEW_TYPE_NODE) {
-                return super.getItemId(position)
+            return if (getItemViewType(position) == VIEW_TYPE_NODE) {
+                super.getItemId(position)
             } else {
-                return -1
+                -1
             }
         }
 
@@ -380,9 +388,7 @@ class NodeListFragment : Fragment() {
                 }
                 holder.mIconInfo.setOnClickListener { v ->
                     fragment.onClickedInfoNode(
-                        getNodeForView(
-                            v
-                        )
+                        getNodeForView(v)
                     )
                 }
 
@@ -426,8 +432,6 @@ class NodeListFragment : Fragment() {
                 circle.setValue(scaled)
                 circle.setColors(n.colorBack, n.colorFront)
                 circle.setText(n.formatValue(value))
-            } else {
-
             }
         }
 
@@ -462,8 +466,8 @@ class NodeListFragment : Fragment() {
     var mDialogEditServer: Dialog? = null
 
     companion object {
-        val TAG = "NodeListFragment"
-        val KEY_NODE_LIST_MODE = "nodeListMode"
+        const val TAG = "NodeListFragment"
+        const val KEY_NODE_LIST_MODE = "nodeListMode"
 
         val NODE_LIST_MODE_LIST = listOf(
             NodeListMode(

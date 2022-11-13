@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -73,6 +74,8 @@ class MainActivity : AppCompatActivity() {
             mNodeTitle = it.getString(KEY_NODE_TITLE, "")
             mMinutes = it.getInt(KEY_MINUTES, BaseTimeFragment.DEFAULT_MINUTES)
         }
+
+        onBackPressedDispatcher.addCallback(this, mOnBackPressed)
 
         startLoadingAuthInfo()
 
@@ -155,25 +158,6 @@ class MainActivity : AppCompatActivity() {
             it.putString(KEY_NODE_TITLE, mNodeTitle)
             it.putInt(KEY_MINUTES, mMinutes)
         }
-    }
-
-    override fun onBackPressed() {
-        val gravity = GravityCompat.START
-        if (mDrawerLayout.isDrawerOpen(gravity)) {
-            mDrawerLayout.closeDrawer(gravity)
-            return
-        }
-
-        if (!mIsTwoPanel) {
-            val fm = supportFragmentManager
-            if (fm.findFragmentById(R.id.detail_content_frame) != null) {
-                mState = STATE_SERVERS
-                postUpdateState()
-                return
-            }
-        }
-
-        super.onBackPressed()
     }
 
     fun onClickedNode(node: RsNodeListNode) {
@@ -614,10 +598,29 @@ class MainActivity : AppCompatActivity() {
     private fun updateNavDrawerItems() {
         val menu = mNavView.menu
         val prefs = Prefs(this)
-        menu.findItem(R.id.nav_app_apache).setVisible(prefs.mShowApache)
-        menu.findItem(R.id.nav_app_nginx).setVisible(prefs.mShowNginx)
-        menu.findItem(R.id.nav_app_mysql).setVisible(prefs.mShowMySQL)
-        menu.findItem(R.id.nav_app_pgsql).setVisible(prefs.mShowPgSQL)
+        menu.findItem(R.id.nav_app_apache).isVisible = prefs.mShowApache
+        menu.findItem(R.id.nav_app_nginx).isVisible = prefs.mShowNginx
+        menu.findItem(R.id.nav_app_mysql).isVisible = prefs.mShowMySQL
+        menu.findItem(R.id.nav_app_pgsql).isVisible = prefs.mShowPgSQL
+    }
+
+    private fun onBackPressedImpl() {
+        val gravity = GravityCompat.START
+        if (mDrawerLayout.isDrawerOpen(gravity)) {
+            mDrawerLayout.closeDrawer(gravity)
+            return
+        }
+
+        if (!mIsTwoPanel) {
+            val fm = supportFragmentManager
+            if (fm.findFragmentById(R.id.detail_content_frame) != null) {
+                mState = STATE_SERVERS
+                postUpdateState()
+                return
+            }
+        }
+
+        finish()
     }
 
     companion object {
@@ -657,4 +660,10 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult(),
         this::onResultPrefs
     )
+
+    private val mOnBackPressed = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            this@MainActivity.onBackPressedImpl()
+        }
+    }
 }
