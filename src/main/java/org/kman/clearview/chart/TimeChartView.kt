@@ -550,11 +550,11 @@ class TimeChartView(context: Context, attrs: AttributeSet?) : ViewGroup(context,
             val showHideAnimator = mLegendView.animate().alpha(0.0f)
             showHideAnimator.setListener(object : AnimatorListenerAdapter() {
                 var mIsCanceled: Boolean = false
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                     mIsCanceled = true
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     if (!mIsCanceled) {
                         mLegendView.visibility = View.GONE
                     }
