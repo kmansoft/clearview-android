@@ -5,8 +5,8 @@ package org.kman.clearview
 import android.os.Bundle
 import android.preference.PreferenceActivity
 
-@Suppress("DEPRECATION")
 class PrefsActivity : PreferenceActivity() {
+    @Deprecated("Deprecated in Java")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
