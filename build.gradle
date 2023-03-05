@@ -3,10 +3,10 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.7.20'
+        kotlin_version = '1.8.0'
         coroutines_version = '1.6.4'
         okhttp_version = '4.10.0'
-        gradle_version = '7.3.1'
+        gradle_version = '7.4.2'
         moshi_version = '1.14.0'
 
         sdk_min = 21
@@ -59,8 +59,8 @@ android {
         targetSdkVersion sdk_target
         compileSdkVersion sdk_compile
 
-        versionCode 15
-        versionName "0.1.5-${versionCode}"
+        versionCode 16
+        versionName "0.1-${versionCode}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
@@ -79,9 +79,9 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
