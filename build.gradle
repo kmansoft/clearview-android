@@ -3,15 +3,16 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.8.0'
-        coroutines_version = '1.6.4'
-        okhttp_version = '4.10.0'
-        gradle_version = '7.4.2'
+        kotlin_version = '1.9.10'
+        coroutines_version = '1.7.1'
+        okhttp_version = '4.12.0'
+        gradle_version = '8.2.0'
         moshi_version = '1.14.0'
+        ksp_plugin_version = '1.9.10-1.0.13'
 
         sdk_min = 21
-        sdk_target = 33
-        sdk_compile = 33
+        sdk_target = 34
+        sdk_compile = 34
     }
 
     repositories {
@@ -23,6 +24,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$ksp_plugin_version"
     }
 }
 
@@ -37,19 +39,19 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 
 android {
 
     namespace 'org.kman.clearview'
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     defaultConfig {
@@ -57,7 +59,7 @@ android {
 
         minSdkVersion sdk_min
         targetSdkVersion sdk_target
-        compileSdkVersion sdk_compile
+        compileSdk sdk_compile
 
         versionCode 16
         versionName "0.1-${versionCode}"
@@ -77,16 +79,16 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.10.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.fragment:fragment-ktx:1.5.6'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     testImplementation 'junit:junit:4.13.2'
