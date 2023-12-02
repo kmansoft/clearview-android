@@ -61,7 +61,7 @@ android {
         targetSdkVersion sdk_target
         compileSdk sdk_compile
 
-        versionCode 16
+        versionCode 17
         versionName "0.1-${versionCode}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
