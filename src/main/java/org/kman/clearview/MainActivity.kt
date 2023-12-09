@@ -2,6 +2,7 @@ package org.kman.clearview
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         updateNavDrawerItems()
 
+        mNavDrawableTransparent = ColorDrawable(0x00FFFFFF)
         mNavDrawable = DrawerArrowDrawable(toolbar.context)
 
         val actionBar = requireNotNull(supportActionBar)
@@ -255,7 +257,7 @@ class MainActivity : AppCompatActivity() {
 
         // Nav drawer
         if (isDrawerLocked()) {
-            mToolbar.navigationIcon = null
+            mToolbar.navigationIcon = mNavDrawableTransparent
         } else {
             mToolbar.navigationIcon = mNavDrawable
         }
@@ -659,6 +661,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mNavHeaderView: View
     private lateinit var mHandler: Handler
     private lateinit var mToolbar: Toolbar
+    private lateinit var mNavDrawableTransparent: Drawable
     private lateinit var mNavDrawable: Drawable
 
     private var mLogoutConfirmDialog: Dialog? = null
