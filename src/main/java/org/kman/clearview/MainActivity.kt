@@ -2,6 +2,7 @@ package org.kman.clearview
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        mToolbar = toolbar
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
         mRefreshFab = fab
         fab.setOnClickListener {
@@ -65,8 +68,10 @@ class MainActivity : AppCompatActivity() {
 
         updateNavDrawerItems()
 
-        val arrowDrawable = DrawerArrowDrawable(toolbar.context)
-        toolbar.navigationIcon = arrowDrawable
+        mNavDrawable = DrawerArrowDrawable(toolbar.context)
+
+        val actionBar = requireNotNull(supportActionBar)
+        actionBar.setHomeAsUpIndicator(mNavDrawable)
 
         savedInstanceState?.also {
             mState = it.getInt(KEY_STATE)
@@ -234,7 +239,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onUpdateState() {
         // Subtitle
-        val actionBar = supportActionBar!!
+        val actionBar = requireNotNull(supportActionBar)
         if (mState == STATE_DETAIL) {
             actionBar.subtitle = mNodeTitle
         } else {
@@ -246,6 +251,13 @@ class MainActivity : AppCompatActivity() {
             mRefreshFab.show()
         } else {
             mRefreshFab.hide()
+        }
+
+        // Nav drawer
+        if (isDrawerLocked()) {
+            mToolbar.navigationIcon = null
+        } else {
+            mToolbar.navigationIcon = mNavDrawable
         }
 
         // Layout
@@ -646,6 +658,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mNavView: NavigationView
     private lateinit var mNavHeaderView: View
     private lateinit var mHandler: Handler
+    private lateinit var mToolbar: Toolbar
+    private lateinit var mNavDrawable: Drawable
 
     private var mLogoutConfirmDialog: Dialog? = null
 

@@ -16,6 +16,9 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
     private val _dataNodeList: MutableLiveData<RsNodeList> = MutableLiveData()
     val dataNodeList: LiveData<RsNodeList> = _dataNodeList
 
+    private val _demoMode: MutableLiveData<Boolean> = MutableLiveData()
+    val demoMode: LiveData<Boolean> = _demoMode
+
     fun startClientIndex(window: RqTimeWindow, verb: String, args: JSONObject?): Job {
         return startCall(_dataNodeList) {
             val url = makeUrlBuilderBase(app)
@@ -32,6 +35,7 @@ class NodeListViewModel(app: Application) : BaseViewModel(app) {
 
             val obj = adapter.fromJson(responseString)
             if (obj != null) {
+                _demoMode.postValue(obj.demoMode)
                 return@startCall obj
             }
 

@@ -43,6 +43,8 @@
     <string name="login_progress_message">Logging in</string>
     <string name="error_title">Error</string>
 
+    <string name="demo_mode">Not available in demo mode</string>
+
     <!-- Node list fragment -->
 
     <string name="home_fragment_title">Node list</string>

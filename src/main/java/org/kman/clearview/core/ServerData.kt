@@ -28,6 +28,8 @@ data class RsNodeListNode(
 
 @JsonClass(generateAdapter = true)
 data class RsNodeList(
+    @Json(name = "demo_mode")
+    val demoMode: Boolean,
     @Json(name = "node_list")
     val nodeList: List<RsNodeListNode>,
     @Json(name = "new_node_id")

@@ -183,6 +183,12 @@ class NodeListFragment : Fragment() {
     }
 
     private fun onClickedAddServer() {
+        val demoMode = mModel.demoMode.value
+        if (demoMode != null && demoMode) {
+            showDemoModeError()
+            return
+        }
+
         val window = TimePeriod.buildTimeWindow(mMinutes)
         mModel.startClientIndex(window, "createnode", null)
     }
@@ -193,6 +199,12 @@ class NodeListFragment : Fragment() {
     }
 
     private fun onClickedDeleteNode(node: RsNodeListNode) {
+        val demoMode = mModel.demoMode.value
+        if (demoMode != null && demoMode) {
+            showDemoModeError()
+            return
+        }
+
         val context = requireContext()
         val dialog =
             AlertDialog.Builder(context).apply {
@@ -238,11 +250,21 @@ class NodeListFragment : Fragment() {
     }
 
     private fun onClickedInfoNodeConfirmed(node: RsNodeListNode, newTitle: String) {
+        val demoMode = mModel.demoMode.value
+        if (demoMode != null && demoMode) {
+            showDemoModeError()
+            return
+        }
+
         val window = TimePeriod.buildTimeWindow(mMinutes)
         val args = JSONObject()
         args.put("node_id", node.nodeId)
         args.put("node_title", newTitle)
         mModel.startClientIndex(window, "setnodetitle", args)
+    }
+
+    private fun showDemoModeError() {
+        Toast.makeText(requireContext(), R.string.demo_mode, Toast.LENGTH_LONG).show()
     }
 
     class EditServerDialog(val fragment: NodeListFragment, val node: RsNodeListNode) :
@@ -536,4 +558,3 @@ class NodeListFragment : Fragment() {
 
     private var mMinutes: Int = BaseTimeFragment.DEFAULT_MINUTES
 }
-
